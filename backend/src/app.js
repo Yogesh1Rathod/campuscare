@@ -32,8 +32,15 @@ app.use(express.json({ limit: '100kb' }));
 app.use(cookieParser());
 app.use(sanitizeBody);
 
-app.get('/api/health', (_req, res) => {
-  res.json({ success: true, message: 'CampusCare API is running', data: { db: mongoose.connection.readyState === 1 } });
+app.get('/api/health', async (_req, res) => {
+  let db = false;
+  try {
+    await connectDb();
+    db = mongoose.connection.readyState === 1;
+  } catch (err) {
+    console.error('Health check: database connection failed:', err.message);
+  }
+  res.status(db ? 200 : 503).json({ success: db, message: db ? 'CampusCare API is running' : 'API is running but the database is unreachable', data: { db } });
 });
 
 // Lazily (re)use the MongoDB connection on every request: required for serverless cold starts.
