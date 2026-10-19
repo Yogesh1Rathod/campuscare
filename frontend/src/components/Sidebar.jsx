@@ -6,9 +6,7 @@ import { ROLE_HOME } from '../lib/format.js';
 export function Brand({ light = false }) {
   return (
     <span className="flex items-center gap-2.5">
-      <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-700 text-white">
-        <CheckCircle2 size={18} aria-hidden="true" />
-      </span>
+      <img src="/campuscare.png" alt="" className="h-8 w-8 rounded-lg object-contain" />
       <span className={`text-lg font-bold tracking-tight ${light ? 'text-white' : 'text-brand-900'}`}>CampusCare</span>
     </span>
   );
